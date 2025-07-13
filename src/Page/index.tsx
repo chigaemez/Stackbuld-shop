@@ -12,7 +12,7 @@ const Index = () => {
       {/* For example, you might want to add a footer or additional sections */}
       <NewArrival />
       <Executive/>
-      <Discount />
+      <Discount targetDate="2025-07-20T23:59:59" />
     </>
   )
 }

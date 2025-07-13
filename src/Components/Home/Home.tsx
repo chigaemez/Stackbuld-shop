@@ -14,7 +14,7 @@ const Home = () => {
       <div className='absolute inset-0 bg-black/70' />
 
       {/* Content */}
-      <div className='relative z-10 flex flex-col items-center justify-center h-full w-[60%] text-white text-center px-4'>
+      <div className='relative z-10 flex flex-col items-center justify-center h-full w-full md:w-[70%] lg:w-[70%] xl:w-[60%] text-white text-center px-4'>
         <h1 className='text-4xl md:text-6xl font-bold mb-4'>
           Timeless Fashion & Fragrance for the Modern Lifestyle
         </h1>
