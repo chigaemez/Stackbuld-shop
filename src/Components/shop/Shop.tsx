@@ -172,7 +172,7 @@ const Shop = () => {
                       />
                     </div>
                   </div>
-                  <div className='overflow-hidden rounded'>
+                  <div className='overflow-hidden rounded mx-auto'>
                     <img
                       src={product.thumbnail}
                       alt={product.title}
