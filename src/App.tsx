@@ -7,6 +7,7 @@ import Product_Detail_Modal from './Components/shop/Product_Detail_Modal'
 import { Toaster } from 'react-hot-toast'
 import CartPage from './Components/Cart/CartPage'
 import CheckoutPage from './Components/shop/Checkout'
+import NotFound from './Components/PageNotFound'
 
 function App () {
   return (
@@ -18,6 +19,7 @@ function App () {
         <Route path="/product/:id" element={<Product_Detail />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
     <Product_Detail_Modal />

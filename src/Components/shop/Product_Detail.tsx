@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { useState } from 'react'
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 const Product_Detail = () => {
   const [quantity, setQuantity] = useState(1)
   const addToCart = useCartStore(state => state.addToCart)
+  const navigate = useNavigate()
 
   const handleAddToCart = () => {
     addToCart({
@@ -32,8 +33,14 @@ const Product_Detail = () => {
   if (!id) return null
 
   return (
-    <div className='  flex items-center justify-center z-50'>
+    <div className='  flex items-center justify-center z-50 mb-[100px] scroll-auto'>
       <div className='bg-white p-6 rounded-lg xl:max-w-[75%] lg:max-w-[75%] md:max-w-[75%] max-w-[100%]  w-full relative'>
+        <button
+          onClick={() => navigate("/shop")}
+          className='absolute top-2 left-2 text-gray-500 hover:text-red-600 text-3xl'
+        >
+          &times;
+        </button>
         {isLoading || !product ? (
           <p>Loading...</p>
         ) : (

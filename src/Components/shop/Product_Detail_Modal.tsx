@@ -32,11 +32,11 @@ const Product_Detail_Modal = () => {
   if (!isOpen || !productId) return null
 
   return (
-    <div className='fixed  inset-0 bg-black/70 flex items-center justify-center z-50'>
-      <div className='bg-white p-6 rounded-lg max-w-[65%] w-full relative'>
+    <div className='fixed  inset-0 bg-black/70 flex items-center justify-center z-50 w-full'>
+      <div className='bg-white p-6 rounded-lg  xl:max-w-[65%] lg:max-w-[85%] md:max-w-[85%] max-w-[100%] w-full relative overflow-scroll my-[150px] h-screen'>
         <button
           onClick={closeModal}
-          className='absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl'
+          className='absolute top-2 left-2 text-gray-500 hover:text-red-600 text-2xl'
         >
           &times;
         </button>

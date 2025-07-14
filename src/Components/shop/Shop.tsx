@@ -72,7 +72,7 @@ const Shop = () => {
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage)
 
   return (
-    <div className='flex flex-col items-center justify-center my-[30px] px-[10px] '>
+    <div className='flex flex-col items-center justify-center mt-[30px] mb-[100px] px-[10px] '>
       <div className='flex flex-col items-center justify-center xl:w-[80%] lg:w-[80%] md:w-[80%] w-full mx-auto'>
         <div className='flex flex-col items-start justify-start w-full border-b-[2px] py-[15px] border-stone-400'>
           <h1 className='text-3xl font-bold text-gray-800'>Shop</h1>
