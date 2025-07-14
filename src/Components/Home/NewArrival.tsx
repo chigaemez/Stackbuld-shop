@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { IoMdCart } from 'react-icons/io'
 import { FaRegEye } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { useProductModal } from '../../store/useProductModal'
+import { useCartStore } from '../../store/CartStore'
 
 type Product = {
   id: number
@@ -29,6 +32,7 @@ const NewArrival: React.FC = () => {
     queryKey: ['threeProducts'],
     queryFn: fetchProducts
   })
+  const addToCart = useCartStore(state => state.addToCart)
 
   if (isLoading) return <div className='text-center py-8'>Loading...</div>
   if (isError || !data)
@@ -38,6 +42,15 @@ const NewArrival: React.FC = () => {
       </div>
     )
 
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail,
+      quantity
+    })
+  }
   return (
     <div className='flex flex-col items-center justify-center   w-full md:w-[80%] lg:w-[80%] xl:w-[80%] mx-auto'>
       <div className='flex w-full items-center justify-center md:items-start md:justify-start lg:items-start lg:justify-start xl:items-start xl:justify-start flex-col px-[20px] '>
@@ -52,24 +65,52 @@ const NewArrival: React.FC = () => {
 
       <div className='  grid grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-[15px] mt-8'>
         {data.products.map((product: Product) => (
-          <div key={product.id} className=' relative group  w-full p-4'>
-            <div className='absolute inset-0 flex items-start px-[20px] py-[20px] justify-end bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[4px]'>
-              <div className='flex flex-col items-center gap-2 text-stone-700'>
-                <IoMdCart className='text-[25px] cursor-pointer hover:scale-110 transition-transform' />
-                <FaRegEye className='text-[25px] cursor-pointer hover:scale-110 transition-transform' />
+          <Link
+            to={`/product/${product.id}`}
+            key={product.id}
+            className='relative group block w-full p-4 rounded hover:shadow transition'
+          >
+            {/* Overlay Icons */}
+            <div className='absolute inset-0 flex items-start px-[20px] py-[20px] justify-end bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[4px] pointer-events-none'>
+              <div className='flex flex-col items-center gap-2 text-stone-700 pointer-events-auto'>
+                {/* Cart Icon */}
+                <IoMdCart
+                  className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
+                  onClick={e => {
+                    e.preventDefault() // optional: prevent link if needed
+                    e.stopPropagation() // prevent triggering the outer link
+                    console.log('Add to cart logic here')
+                  }}
+                />
+
+                {/* Eye Icon (Modal Trigger) */}
+                <FaRegEye
+                  onClick={e => {
+                    e.preventDefault() // prevent link navigation
+                    e.stopPropagation() // prevent outer link
+                    useProductModal.getState().openModal(product.id)
+                  }}
+                  className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
+                />
               </div>
             </div>
 
+            {/* Product Content */}
             <img
               src={product.thumbnail}
               alt={product.title}
               className='xl:w-[400px] xl:h-[400px] object-cover mb-2'
             />
-            <h2 className='text-[20px] font-[500]'>{product.title.slice(0, 12) + '...'}</h2>
-            <h2 className='text-[14px] font-[500] text-stone-500'>{product.tags?.[1]}</h2>
-
-            <p className='text-gray-600 font-[500]'>${product.discountPercentage} - ${product.price}</p>
-          </div>
+            <h2 className='text-[20px] font-[500]'>
+              {product.title.slice(0, 12) + '...'}
+            </h2>
+            <h2 className='text-[14px] font-[500] text-stone-500'>
+              {product.tags?.[1]}
+            </h2>
+            <p className='text-gray-600 font-[500]'>
+              ${product.discountPercentage} - ${product.price}
+            </p>
+          </Link>
         ))}
       </div>
     </div>

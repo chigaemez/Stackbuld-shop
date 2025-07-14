@@ -32,7 +32,7 @@ const NavBar = () => {
                   'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
                 }
               >
-                Shop
+                <Link to='/shop'>Shop</Link>
               </li>
               <li
                 className={
