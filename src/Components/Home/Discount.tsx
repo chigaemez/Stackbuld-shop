@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-type CountdownProps = {
-  targetDate: string // e.g. "2025-07-20T23:59:59"
-}
+
 
 const Discount = ({targetDate}: {targetDate: string}) => {
     const calculateTimeLeft = () => {

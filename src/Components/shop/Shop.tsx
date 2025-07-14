@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import { useProductModal } from '../../store/useProductModal'
 import { IoMdCart } from 'react-icons/io'
 import toast from 'react-hot-toast'
@@ -47,7 +47,6 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-  const navigate = useNavigate();
 
   const filteredProducts = (data?.products || [])
     .filter(product => product.title.toLowerCase().includes(searchQuery))
