@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BsCart4 } from 'react-icons/bs'
 import { RiMenu2Line, RiCloseLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
+import { useCartStore } from '../store/CartStore'
 
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
@@ -9,21 +10,28 @@ const NavBar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
-    { name: 'About', path: '/about' },
-   
+    { name: 'About', path: '/about' }
   ]
+
+  const cart = useCartStore(state => state.cart)
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0)
 
   return (
     <div className='flex flex-col'>
       {/* Top Nav */}
       <div className='flex items-center lg:px-24 px-4 justify-between h-[80px] py-5 relative z-50'>
-        <h1 className='text-3xl font-bold text-stone-800 cursor-pointer'>StackShop</h1>
+        <h1 className='text-3xl font-bold text-stone-800 cursor-pointer'>
+          StackShop
+        </h1>
 
         {/* Desktop Nav */}
         <div className='hidden lg:flex'>
           <ul className='flex items-center gap-9'>
             {navLinks.map(link => (
-              <li key={link.name} className='text-lg text-black hover:text-gray-600 font-medium'>
+              <li
+                key={link.name}
+                className='text-lg text-black hover:text-gray-600 font-medium'
+              >
                 <Link to={link.path}>{link.name}</Link>
               </li>
             ))}
@@ -36,6 +44,11 @@ const NavBar = () => {
           className='hidden lg:flex relative bg-stone-700 py-2 px-5 rounded'
         >
           <BsCart4 className='text-stone-300 text-2xl' />
+          {cartCount > 0 && (
+            <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center'>
+              {cartCount}
+            </span>
+          )}
         </Link>
 
         {/* Mobile Menu + Cart */}
@@ -47,11 +60,13 @@ const NavBar = () => {
               <RiMenu2Line className='text-3xl text-black' />
             )}
           </button>
-          <Link
-            to='/cart'
-            className='relative bg-stone-700 py-2 px-5 rounded'
-          >
+          <Link to='/cart' className='relative bg-stone-700 py-2 px-5 rounded'>
             <BsCart4 className='text-stone-300 text-2xl' />
+            {cartCount > 0 && (
+              <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center'>
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
 
