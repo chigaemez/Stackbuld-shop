@@ -1,109 +1,98 @@
 import { useState } from 'react'
 import { BsCart4 } from 'react-icons/bs'
-import { RiMenu2Line } from 'react-icons/ri'
+import { RiMenu2Line, RiCloseLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 
 const NavBar = () => {
-  const [showMenu, setShowManu] = useState<boolean>(false)
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'About', path: '/about' },
+    { name: 'Careers', path: '/careers' },
+    { name: 'FAQ\'s', path: '/faqs' },
+    { name: 'Contact', path: '/contact' },
+  ]
+
   return (
     <div className='flex flex-col'>
-      
-      <div className='flex items-center lg:px-24 px-4 justify-between duration-300 ease-in left-0 z-40 w-full   h-[80px] py-5 '>
-        {showMenu && (
-          <div className='absolute z-[999] inset-0 flex lg:hidden h-screen bg-black opacity-70 duration-700 ease-in'></div>
-        )}
-        <div className='flex items-center justify-center'>
-          <h1 className='text-3xl flex font-bold text-stone-800 relative  z-50 cursor-pointer duration-300 ease-in '>
-            StackShop
-          </h1>
-        </div>
-        <div className='hidden md:hidden lg:flex'>
-          <div>
-            <ul className='flex items-center gap-9'>
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                <Link to='/'>Home</Link>
-              </li>
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                <Link to='/shop'>Shop</Link>
-              </li>
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                Blog
-              </li>
+      {/* Top Nav */}
+      <div className='flex items-center lg:px-24 px-4 justify-between h-[80px] py-5 relative z-50'>
+        <h1 className='text-3xl font-bold text-stone-800 cursor-pointer'>StackShop</h1>
 
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                About
+        {/* Desktop Nav */}
+        <div className='hidden lg:flex'>
+          <ul className='flex items-center gap-9'>
+            {navLinks.map(link => (
+              <li key={link.name} className='text-lg text-black hover:text-gray-600 font-medium'>
+                <Link to={link.path}>{link.name}</Link>
               </li>
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                Careers
-              </li>
-
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                FAQ's
-              </li>
-              <li
-                className={
-                  'text-lg cursor-pointer text-black hover:text-gray-600 font-medium duration-300 ease-in'
-                }
-              >
-                Contact
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ul>
         </div>
 
+        {/* Desktop Cart */}
         <Link
           to='/cart'
-          className='relative bg-stone-700 py-2 px-7  rounded duration-300 ease-in'
+          className='hidden lg:flex relative bg-stone-700 py-2 px-5 rounded'
         >
-          <BsCart4 className='text-stone-300 text-2xl duration-300 ease-in' />
-
-          <p className='text-lg text-red-600 absolute top-[-4px] right-9 font-extrabold'></p>
+          <BsCart4 className='text-stone-300 text-2xl' />
         </Link>
-        <div className='flex lg:hidden items-center justify-between gap-4'>
-          <div
-            className= 'flex text-black gap-6 lg:hidden text-2xl z-50 duration-300 ease-in '
-            
+
+        {/* Mobile Menu + Cart */}
+        <div className='flex lg:hidden items-center gap-4'>
+          <button onClick={() => setShowMenu(prev => !prev)}>
+            {showMenu ? (
+              <RiCloseLine className='text-3xl text-black' />
+            ) : (
+              <RiMenu2Line className='text-3xl text-black' />
+            )}
+          </button>
+          <Link
+            to='/cart'
+            className='relative bg-stone-700 py-2 px-5 rounded'
           >
-            <RiMenu2Line />
-          </div>
-          <Link to='/cart' className='relative z-40'>
-            <BsCart4
-              className='text-stone-800 text-2xl duration-300 ease-in'
-              
-            />
-            <p className='text-lg text-red-400 absolute top-[-16px] right-1 font-bold'>
-              0
-            </p>
+            <BsCart4 className='text-stone-300 text-2xl' />
           </Link>
+        </div>
+
+        {/* Overlay */}
+        {showMenu && (
+          <div
+            className='fixed inset-0 bg-black bg-opacity-50 z-40'
+            onClick={() => setShowMenu(false)}
+          />
+        )}
+
+        {/* Mobile Menu */}
+        <div
+          className={`fixed top-0 left-0 w-3/4 max-w-[280px] h-full bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+            showMenu ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <ul className='flex flex-col mt-20 space-y-6 px-6'>
+            {navLinks.map(link => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  onClick={() => setShowMenu(false)}
+                  className='text-lg text-gray-800 hover:text-gray-500'
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
+      {/* Promo Bar */}
       <div className='flex items-center justify-center bg-black h-[55px]'>
-        <h1 className='text-white'>Get 15% off on your first order</h1>
+        <h1 className='text-white text-center text-sm md:text-base'>
+          Get 15% off on your first order
+        </h1>
       </div>
     </div>
   )

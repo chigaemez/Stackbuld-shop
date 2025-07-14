@@ -4,6 +4,7 @@ import { FaRegEye } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useProductModal } from '../../store/useProductModal'
 import { useCartStore } from '../../store/CartStore'
+import toast from 'react-hot-toast'
 
 type Product = {
   id: number
@@ -41,16 +42,6 @@ const NewArrival: React.FC = () => {
         Error loading products
       </div>
     )
-
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      thumbnail: product.thumbnail,
-      quantity
-    })
-  }
   return (
     <div className='flex flex-col items-center justify-center   w-full md:w-[80%] lg:w-[80%] xl:w-[80%] mx-auto'>
       <div className='flex w-full items-center justify-center md:items-start md:justify-start lg:items-start lg:justify-start xl:items-start xl:justify-start flex-col px-[20px] '>
@@ -70,32 +61,39 @@ const NewArrival: React.FC = () => {
             key={product.id}
             className='relative group block w-full p-4 rounded hover:shadow transition'
           >
-            {/* Overlay Icons */}
+            
             <div className='absolute inset-0 flex items-start px-[20px] py-[20px] justify-end bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[4px] pointer-events-none'>
               <div className='flex flex-col items-center gap-2 text-stone-700 pointer-events-auto'>
-                {/* Cart Icon */}
+                
                 <IoMdCart
                   className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
                   onClick={e => {
-                    e.preventDefault() // optional: prevent link if needed
-                    e.stopPropagation() // prevent triggering the outer link
-                    console.log('Add to cart logic here')
+                    e.preventDefault()
+                    e.stopPropagation()
+
+                    addToCart({
+                      id: product.id,
+                      title: product.title,
+                      price: product.price,
+                      thumbnail: product.thumbnail,
+                      quantity: 1 
+                    })
+
+                    toast.success(`${product.title} added to cart`)
                   }}
                 />
 
-                {/* Eye Icon (Modal Trigger) */}
+                
                 <FaRegEye
                   onClick={e => {
-                    e.preventDefault() // prevent link navigation
-                    e.stopPropagation() // prevent outer link
+                    e.preventDefault() 
+                    e.stopPropagation() 
                     useProductModal.getState().openModal(product.id)
                   }}
                   className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
                 />
               </div>
             </div>
-
-            {/* Product Content */}
             <img
               src={product.thumbnail}
               alt={product.title}

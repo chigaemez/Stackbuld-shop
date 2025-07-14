@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { useState } from 'react'
 import { useCartStore } from '../../store/CartStore'
+import toast from 'react-hot-toast'
 
 const Product_Detail = () => {
   const [quantity, setQuantity] = useState(1)
@@ -16,6 +17,8 @@ const Product_Detail = () => {
       thumbnail: product.thumbnail,
       quantity
     })
+
+    toast.success(`${product.title} added to cart`)
   }
   const { id } = useParams()
 

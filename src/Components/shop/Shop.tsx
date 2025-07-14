@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useProductModal } from '../../store/useProductModal';
+import { Link, useNavigate } from 'react-router-dom'
+import { useProductModal } from '../../store/useProductModal'
+import { IoMdCart } from 'react-icons/io'
+import toast from 'react-hot-toast'
+import { FaRegEye } from 'react-icons/fa'
+import { useCartStore } from '../../store/CartStore'
 
 type Product = {
   id: number
@@ -36,11 +40,14 @@ const Shop = () => {
     queryKey: ['allProducts'],
     queryFn: fetchAllProducts
   })
+  const addToCart = useCartStore(state => state.addToCart)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [itemsPerPage] = useState<number>(9)
   const [sortOption, setSortOption] = useState<string>('default')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
+
+  const navigate = useNavigate();
 
   const filteredProducts = (data?.products || [])
     .filter(product => product.title.toLowerCase().includes(searchQuery))
@@ -128,11 +135,44 @@ const Shop = () => {
           {data && (
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full'>
               {currentProducts?.map(product => (
-                <div
+                <Link
+                  to={`/product/${product.id}`}
                   key={product.id}
-                  onClick={() => useProductModal.getState().openModal(product.id)}
-                  className='rounded p-4 group overflow-hidden w-full block'
+                  onClick={() =>
+                    useProductModal.getState().openModal(product.id)
+                  }
+                  className='relative rounded p-4 group overflow-hidden w-full block'
                 >
+                  <div className='absolute inset-0 flex items-start px-[20px] py-[20px] justify-end bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[4px] pointer-events-none'>
+                    <div className='flex flex-col items-center gap-2 text-stone-700 pointer-events-auto'>
+                      <IoMdCart
+                        className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
+                        onClick={e => {
+                          e.preventDefault()
+                          e.stopPropagation()
+
+                          addToCart({
+                            id: product.id,
+                            title: product.title,
+                            price: product.price,
+                            thumbnail: product.thumbnail,
+                            quantity: 1
+                          })
+
+                          toast.success(`${product.title} added to cart`)
+                        }}
+                      />
+
+                      <FaRegEye
+                        onClick={e => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          useProductModal.getState().openModal(product.id)
+                        }}
+                        className='text-[25px] cursor-pointer hover:scale-110 transition-transform'
+                      />
+                    </div>
+                  </div>
                   <div className='overflow-hidden rounded'>
                     <img
                       src={product.thumbnail}
@@ -147,7 +187,7 @@ const Shop = () => {
                   <p className='text-green-600 font-bold'>
                     ${product.discountPercentage} - ${product.price}
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
           )}

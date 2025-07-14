@@ -3,6 +3,7 @@ import { useProductModal } from '../../store/useProductModal'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useCartStore } from '../../store/CartStore'
+import toast from 'react-hot-toast'
 const Product_Detail_Modal = () => {
   const { isOpen, productId, closeModal } = useProductModal()
    const [quantity, setQuantity] = useState(1)
@@ -16,6 +17,7 @@ const Product_Detail_Modal = () => {
         thumbnail: product.thumbnail,
         quantity
       })
+      toast.success(`${product.title} added to cart`)
     }
 
   const { data: product, isLoading } = useQuery({
