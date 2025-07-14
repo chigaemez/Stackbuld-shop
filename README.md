@@ -1,69 +1,41 @@
-# React + TypeScript + Vite
+# StackShop – E-commerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**StackShop** is a modern, responsive e-commerce frontend built using **React**, **TypeScript**, **Zustand**, **Tailwind CSS**, and **React Query**. It features dynamic product listings, detail modals, shopping cart management, and a mobile-friendly layout.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🛍️ Product Listing with Pagination & Sorting  
+- 🔍 Product Details Modal  
+- 🛒 Shopping Cart with Zustand State Management  
+- 📦 Checkout Flow with Order Summary  
+- 📱 Responsive UI (Mobile & Desktop)  
+- 🌐 404 Page Handling  
+- ⚡ Vite + TypeScript + TailwindCSS  
 
-## Expanding the ESLint configuration
+## 📁 Folder Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+StsckBuld_Assessment/
+├── public/ # Static assets
+├── src/ # Source code
+│ ├── components/ # Reusable components (Navbar, Product, Cart, etc.)
+│ ├── pages/ # Pages (Home, Shop, Cart, Checkout, 404)
+│ ├── store/ # Zustand store
+│ ├── App.tsx # Root app setup
+│ └── main.tsx # Vite entry point
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📦 Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Clone the project
+git clone https://github.com/yourusername/StsckBuld_Assessment.git
+cd StsckBuld_Assessment
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# Install dependencies
+npm install
